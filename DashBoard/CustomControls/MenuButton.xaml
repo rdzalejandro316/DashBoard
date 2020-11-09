@@ -5,14 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DashBoard.CustomControls"
              mc:Ignorable="d" x:Name="this" Background="White" Cursor="Hand">
-    
-    
+
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/Icons.xaml"/>
+                <ResourceDictionary Source="/Resources/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-                        
             <Style x:Key="MenuTextStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="Foreground" Value="Black"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -30,8 +29,6 @@
                 </Style.Triggers>
 
             </Style>
-            
-
             <Style x:Key="MenuButtonStyle" TargetType="{x:Type ToggleButton}">
                 <Setter Property="Height" Value="45"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -61,10 +58,9 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <RadioButton Style="{StaticResource MenuButtonStyle}" GroupName="{Binding GroupName, ElementName=this}"/>
 </UserControl>

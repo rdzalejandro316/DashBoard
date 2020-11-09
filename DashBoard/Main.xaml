@@ -31,7 +31,7 @@
             </Style>
             <Style x:Key="ButonStyle" TargetType="Button">
                 <Setter Property="BitmapEffect" Value="{StaticResource DropShadowButton}"/>
-                <Setter Property="Background" Value="#6D78CB"/>
+                <Setter Property="Background" Value="{StaticResource ColorMain}"/>
                 <Setter Property="Foreground" Value="White"/>
                 <Setter Property="Width" Value="100"/>
                 <Setter Property="Height" Value="35"/>
@@ -50,7 +50,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
         </ResourceDictionary>
     </Window.Resources>
 
@@ -84,6 +83,7 @@
                 <Grid Name="Content" Background="#EFF2F8" Margin="0,0,20,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80"/>
+                        <RowDefinition Height="60"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
@@ -99,44 +99,49 @@
 
                         <TextBlock Text="FECHA INICIAL:" Style="{StaticResource TxTitle}"/>
                         <syncfusion:SfDatePicker Name="TxFecIni" Grid.Column="1" />
-                        
+
                         <TextBlock Grid.Column="2" Text="FECHA FINAL:" Style="{StaticResource TxTitle}"/>
                         <syncfusion:SfDatePicker Name="TxFecFin" Grid.Column="3" />
 
                         <Button Name="BtnConsultar" Content="Consultar" Grid.Column="4" Style="{StaticResource ButonStyle}" Click="BtnConsultar_Click"/>
                     </Grid>
 
-
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                        <customcontrols:CardTotals Grid.Column="0" x:Name="TxRegistros" Title="Registros" Value="0" LineColor="{StaticResource ColorMain}"/>
 
-                            <customcontrols:CardTotals x:Name="TxTotales" Title="Registros" Value="555"/>
+                        <customcontrols:CardTotals Grid.Column="1" x:Name="TxCantidad" Title="Cantidad" Value="0" LineColor="{StaticResource ColorMain}"/>
 
-                            <customcontrols:CardTotals x:Name="TxCantidad" Title="Cantidad" Grid.Row="1"/>
+                        <customcontrols:CardTotals Grid.Column="2" x:Name="TxSubtotal" Title="Subtotal" Grid.Row="2" Value="0" LineColor="{StaticResource ColorMain}"/>
 
-                            <customcontrols:CardTotals Title="Subtotal" Grid.Row="2"/>
-                            
-                            <customcontrols:CardTotals Title="Total" Grid.Row="3"/>
-                            
-                        </Grid>
-                        
-                        
+                        <customcontrols:CardTotals Grid.Column="3" x:Name="TxTotal" Title="Total" Grid.Row="3" Value="0" LineColor="{StaticResource ColorMain}"/>
+
                     </Grid>
-                    
-                    <Grid Grid.Row="2">
 
-                        <!--<syncfusion:SfChart x:Name="AreaChartVta" AreaBorderThickness="0,1,1,0" Grid.Column="0"      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,10,1">
+
+                    <Grid Grid.Row="2">
+                        <Grid.Resources>
+                            <DataTemplate x:Key="headerTemplate">
+                                <TextBlock FontSize="12" Foreground="Black" Margin="5" Text="{Binding}"/>
+                            </DataTemplate>
+
+                            <DataTemplate x:Key="labelTemplate">
+                                <TextBlock FontSize="10" Foreground="#2980b9"  Margin="1" Text="{Binding Path=LabelContent}"/>
+                            </DataTemplate>
+
+                            <Style TargetType="Line" x:Key="AxisStyle">
+                                <Setter Property="Stroke" Value="DarkGray"  />
+                                <Setter Property="StrokeThickness" Value="1"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <syncfusion:SfChart x:Name="AreaChartVta" AreaBorderThickness="0,1,1,0" Grid.Column="0"      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,10,1">
                             <syncfusion:SfChart.Header>
                                 <TextBlock FontSize="10" FontFamily="Segoe UI" Foreground="#2980b9" Margin="0,0,0,5">Ventas por Almacen</TextBlock>
                             </syncfusion:SfChart.Header>
@@ -146,30 +151,96 @@
                             </syncfusion:SfChart.PrimaryAxis>
 
                             <syncfusion:SfChart.SecondaryAxis>
-                                <syncfusion:NumericalAxis Foreground="DodgerBlue" Header="Total Ventas" HeaderTemplate="{StaticResource headerTemplate}"   LabelTemplate="{StaticResource labelTemplate}"  AxisLineStyle="{StaticResource AxisStyle}"  MajorTickLineStyle="{StaticResource AxisStyle}">
-                                </syncfusion:NumericalAxis>
+                                <syncfusion:NumericalAxis Foreground="DodgerBlue" Header="Total Ventas" HeaderTemplate="{StaticResource headerTemplate}"   LabelTemplate="{StaticResource labelTemplate}"  AxisLineStyle="{StaticResource AxisStyle}"  MajorTickLineStyle="{StaticResource AxisStyle}"/>
+
                             </syncfusion:SfChart.SecondaryAxis>
 
-                            <syncfusion:AreaSeries x:Name="AreaSeriesVta" EnableAnimation="True"  XBindingPath="ini_bod"  Label="Bodega" YBindingPath="neto"  ItemsSource="{Binding VentasAnos}"   ShowTooltip="True" AnimationDuration="00:00:03" Margin="0 0 10 0">
-                                <syncfusion:AreaSeries.AdornmentsInfo>
-                                    <syncfusion:ChartAdornmentInfo AdornmentsPosition="Bottom"  HorizontalAlignment="Center" VerticalAlignment="Center" ShowLabel="True">
-                                        <syncfusion:ChartAdornmentInfo.LabelTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Ellipse Height="27" Width="27" Stroke="#FF1BA1E2" Fill="#7f8c8d" StrokeThickness="2"  HorizontalAlignment="Center"/>
-                                                    <TextBlock Text="{Binding}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI"  FontSize="12"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </syncfusion:ChartAdornmentInfo.LabelTemplate>
-                                    </syncfusion:ChartAdornmentInfo>
-                                </syncfusion:AreaSeries.AdornmentsInfo>
-                            </syncfusion:AreaSeries>
-                        </syncfusion:SfChart>-->
-                    
-                </Grid>
+                            <syncfusion:AreaSeries x:Name="AreaSeriesVta" EnableAnimation="True"  XBindingPath="ini_bod"  Label="Bodega" YBindingPath="neto" ShowTooltip="True" AnimationDuration="00:00:03" Margin="0 0 10 0"/>
+                        </syncfusion:SfChart>
 
-                    
-                    
+                    </Grid>
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+
+                        <Grid>
+                            <syncfusion:SfChart Grid.Column="0" Margin="10 10 10 10" AreaBorderBrush="{x:Null}" Header="Reducciones" FontWeight="Bold">
+                                <syncfusion:SfChart.Legend>
+                                    <syncfusion:ChartLegend FontSize="9" DockPosition="Top" />
+                                </syncfusion:SfChart.Legend>
+
+                                <syncfusion:DoughnutSeries  Name="ChartCircleBodegas" XBindingPath="cod_bod" YBindingPath="neto" ShowTooltip="True" EnableAnimation="True" AnimationDuration="00:00:04" Palette="Custom">
+                                    <syncfusion:DoughnutSeries.ColorModel>
+                                        <syncfusion:ChartColorModel>
+                                            <syncfusion:ChartColorModel.CustomBrushes>
+                                                <SolidColorBrush Color="#FFC107"/>
+                                                <SolidColorBrush Color="#00BCD4"/>
+                                                <SolidColorBrush Color="#673AB7"/>
+                                            </syncfusion:ChartColorModel.CustomBrushes>
+                                        </syncfusion:ChartColorModel>
+                                    </syncfusion:DoughnutSeries.ColorModel>
+                                    <syncfusion:DoughnutSeries.AdornmentsInfo>
+                                        <syncfusion:ChartAdornmentInfo AdornmentsPosition="Bottom"  HorizontalAlignment="Center" VerticalAlignment="Center" ShowLabel="True" ShowConnectorLine="True" ConnectorHeight="40">
+                                            <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Border CornerRadius="2" BorderBrush="{x:Null}" BorderThickness="1" Background="#373737" Padding="5">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Total : " Margin="0 0 5 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI"  FontSize="14"/>
+                                                                <TextBlock Text="{Binding}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI"  FontSize="14"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                        </syncfusion:ChartAdornmentInfo>
+                                    </syncfusion:DoughnutSeries.AdornmentsInfo>
+                                </syncfusion:DoughnutSeries>
+                            </syncfusion:SfChart>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <syncfusion:SfChart Grid.Column="0" Margin="10 10 10 10" AreaBorderBrush="{x:Null}" Header="Reducciones" FontWeight="Bold">
+                                <syncfusion:SfChart.Legend>
+                                    <syncfusion:ChartLegend FontSize="9" DockPosition="Top" />
+                                </syncfusion:SfChart.Legend>
+
+                                <syncfusion:DoughnutSeries  Name="ChartCircleBodegas2" XBindingPath="cod_bod" YBindingPath="neto" ShowTooltip="True" EnableAnimation="True" AnimationDuration="00:00:04" Palette="Custom">
+                                    <syncfusion:DoughnutSeries.ColorModel>
+                                        <syncfusion:ChartColorModel>
+                                            <syncfusion:ChartColorModel.CustomBrushes>
+                                                <SolidColorBrush Color="#FFC107"/>
+                                                <SolidColorBrush Color="#00BCD4"/>
+                                                <SolidColorBrush Color="#673AB7"/>
+                                            </syncfusion:ChartColorModel.CustomBrushes>
+                                        </syncfusion:ChartColorModel>
+                                    </syncfusion:DoughnutSeries.ColorModel>
+                                    <syncfusion:DoughnutSeries.AdornmentsInfo>
+                                        <syncfusion:ChartAdornmentInfo AdornmentsPosition="Bottom"  HorizontalAlignment="Center" VerticalAlignment="Center" ShowLabel="True" ShowConnectorLine="True" ConnectorHeight="40">
+                                            <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Border CornerRadius="2" BorderBrush="{x:Null}" BorderThickness="1" Background="#373737" Padding="5">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Total : " Margin="0 0 5 0"  Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI"  FontSize="14"/>
+                                                                <TextBlock Text="{Binding}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI"  FontSize="14"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                        </syncfusion:ChartAdornmentInfo>
+                                    </syncfusion:DoughnutSeries.AdornmentsInfo>
+                                </syncfusion:DoughnutSeries>
+                            </syncfusion:SfChart>
+                        </Grid>
+
+                    </Grid>
+
                 </Grid>
             </Border>
 

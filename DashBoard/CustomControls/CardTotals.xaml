@@ -7,16 +7,21 @@
              mc:Ignorable="d" x:Name="this">
 
     <UserControl.Resources>
-        <Style TargetType="Border" x:Key="card">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Direction="0" ShadowDepth="0.5" BlurRadius="5" Color="Black"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Border" x:Key="card">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Direction="0" ShadowDepth="0.5" BlurRadius="5" Color="Black"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Border Style="{StaticResource card}" Margin="5" Width="200">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -29,13 +34,15 @@
                 <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding Title,ElementName=this, FallbackValue=Title, TargetNullValue=Title}" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Margin="0,6,0,2"/>
+            <Image Grid.RowSpan="3" Source="{Binding Icon, ElementName=this, FallbackValue={StaticResource Sales}, TargetNullValue={StaticResource Sales}}"  VerticalAlignment="Center" Height="30"/>
 
-            <Viewbox Stretch="Uniform" Grid.Row="1">
+            <TextBlock Grid.Column="1" Text="{Binding Title,ElementName=this, FallbackValue=Title, TargetNullValue=Title}" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+
+            <Viewbox Stretch="Uniform" Grid.Row="1" Grid.Column="1">
                 <TextBlock  Text="{Binding Value,ElementName=this,FallbackValue=Title}" Grid.Row="1"/>
             </Viewbox>
-            
-            <Line  Grid.Row="2" Grid.ColumnSpan="2" X1="0" Y1="0"  X2="100" Y2="00"  Stroke="Red"  StrokeThickness="1" VerticalAlignment="Bottom"/>
+
+            <Line  Grid.Row="2" Grid.ColumnSpan="2" X1="0" Y1="0"  X2="100" Y2="00"  Stroke="{Binding LineColor,ElementName=this}"  StrokeThickness="1" VerticalAlignment="Bottom"/>
 
         </Grid>
     </Border>

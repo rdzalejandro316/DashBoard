@@ -31,6 +31,14 @@ namespace DashBoard.CustomControls
         public string Value { get { return (string)GetValue(ValueProperty); } set { SetValue(ValueProperty, value); } }
 
 
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(ImageSource), typeof(CardTotals));
+        public ImageSource Icon { get { return (ImageSource)GetValue(IconProperty); } set { SetValue(IconProperty, value); } }
+
+
+        public static readonly DependencyProperty LineColorProperty = DependencyProperty.Register("LineColor", typeof(Brush), typeof(CardTotals));
+        public Brush LineColor { get { return (Brush)GetValue(LineColorProperty); } set { SetValue(LineColorProperty, value); } }
+
+
 
 
 

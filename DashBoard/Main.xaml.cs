@@ -47,7 +47,7 @@ namespace DashBoard
                 string fi = ffi.ToString("dd/MM/yyyy");
                 string ff = fff.ToString("dd/MM/yyyy");
 
-                
+
                 var slowTask = Task<DataSet>.Factory.StartNew(() => LoadData(fi, ff));
                 await slowTask;
 
@@ -56,56 +56,24 @@ namespace DashBoard
                 {
 
                     //VentasPorProducto.ItemsSource = ((DataSet)slowTask.Result).Tables[0].DefaultView;
+                    
+                    AreaSeriesVta.ItemsSource = ((DataSet)slowTask.Result).Tables[1];
+                    ChartCircleBodegas.ItemsSource = ((DataSet)slowTask.Result).Tables[1];
+                    ChartCircleBodegas2.ItemsSource = ((DataSet)slowTask.Result).Tables[1];
 
-                    TxTotales.Value = ((DataSet)slowTask.Result).Tables[0].Rows.Count.ToString();
 
-                    //VentaPorBodega.ItemsSource = ((DataSet)slowTask.Result).Tables[1];
-                    //Total2.Text = ((DataSet)slowTask.Result).Tables[1].Rows.Count.ToString();
-
-                    //CharVentasBodega.DataContext = ((DataSet)slowTask.Result).Tables[1];
-                    //AreaSeriesVta.ItemsSource = ((DataSet)slowTask.Result).Tables[1];
-
-                    //VentasPorCliente.ItemsSource = ((DataSet)slowTask.Result).Tables[2];
-                    //Total3.Text = ((DataSet)slowTask.Result).Tables[2].Rows.Count.ToString();
-
-                    //VentasPorVendedor.ItemsSource = ((DataSet)slowTask.Result).Tables[3];
-                    //Total4.Text = ((DataSet)slowTask.Result).Tables[3].Rows.Count.ToString();
-
-                    //VentasPorLinea.ItemsSource = ((DataSet)slowTask.Result).Tables[4];
-                    //Total5.Text = ((DataSet)slowTask.Result).Tables[4].Rows.Count.ToString();
-
-                    //VentasPorGrupo.ItemsSource = ((DataSet)slowTask.Result).Tables[5];
-                    //Total6.Text = ((DataSet)slowTask.Result).Tables[5].Rows.Count.ToString();
-
-                    //VentasPorFPago.ItemsSource = ((DataSet)slowTask.Result).Tables[6];
-                    //Total7.Text = ((DataSet)slowTask.Result).Tables[6].Rows.Count.ToString();
-
-                    //VentasPorClienteRef.ItemsSource = ((DataSet)slowTask.Result).Tables[7];
-                    //Total8.Text = ((DataSet)slowTask.Result).Tables[7].Rows.Count.ToString();
-
-                    //dataGridFP_detallado.ItemsSource = ((DataSet)slowTask.Result).Tables[8];
-
-                    //GridDocumen.ItemsSource = ((DataSet)slowTask.Result).Tables[9];
-                    //Total9.Text = ((DataSet)slowTask.Result).Tables[9].Rows.Count.ToString();
-
-                    //VentasProvedor.ItemsSource = ((DataSet)slowTask.Result).Tables[10];
-                    //Total10.Text = ((DataSet)slowTask.Result).Tables[10].Rows.Count.ToString();
-
-                    ////SiaWin.Browse(((DataSet)slowTask.Result).Tables[10]);
-
-                    //TabControl1.SelectedIndex = 2;
-                    //TabControl1.SelectedIndex = 1;
-
-                    ////TABLA 0
                     double CantNeto = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(neto)", "").ToString());
-                    //double sub = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(subtotal)", "").ToString());
-                    //double descto = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(val_des)", "").ToString());
-                    //double iva = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(val_iva)", "").ToString());
-                    //double total = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(total)", "").ToString());
-                    //double costo = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(costo)", "").ToString());
+                    double sub = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(subtotal)", "").ToString());
+                    double descto = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(val_des)", "").ToString());
+                    double iva = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(val_iva)", "").ToString());
+                    double total = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(total)", "").ToString());
+                    double costo = Convert.ToDouble(((DataSet)slowTask.Result).Tables[0].Compute("Sum(costo)", "").ToString());
 
 
+                    TxRegistros.Value = ((DataSet)slowTask.Result).Tables[0].Rows.Count.ToString();
                     TxCantidad.Value = CantNeto.ToString();
+                    TxSubtotal.Value = sub.ToString("C");
+                    TxTotal.Value = sub.ToString("C");
                 }
 
                 //this.sfBusyIndicator.IsBusy = false;
